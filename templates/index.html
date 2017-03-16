@@ -1,0 +1,73 @@
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">name</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputEmail3" placeholder="name" ng-model="name"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">skill</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="inputPassword3" placeholder="skill" ng-model="skill"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-default" ng-click="submit()">submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="container">
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						id
+					</th>
+					<th>
+						name
+					</th>
+					<th>
+						skill
+					</th>
+					<th>
+						update
+					</th>
+					<th>
+						delete
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="list in lists">
+					<td>
+						{{list.id}}
+					</td>
+					<td>
+						{{list.name}}
+					</td>
+					<td>
+						{{list.skill}}
+					</td>
+					<td>
+						<a ng-href="#/edit/{{list.id}}">edit</a>
+					</td>
+					<td>
+						<button ng-click="delete(list.id)">delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

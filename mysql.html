@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>mysql</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+</head>
+<body>
+	<div ng-view=""></div>
+</body>
+<script src="js/angular.js"></script>
+<script src="js/angular-route.js"></script>
+<script>
+	var app = angular.module('myApp',['ngRoute']);
+	app.config(['$routeProvider',function($routeProvider){
+		$routeProvider.when('/index',{
+			templateUrl:'templates/index.html',
+			controller:'indexCtrl'
+		}).when('/edit/:id',{
+			templateUrl:'templates/edit.html',
+			controller:'editCtrl'
+		})
+	}])
+	app.controller('indexCtrl',['$scope','$http',function($scope,$http){
+		//请求数据
+		$scope.select = function(){
+			$http.get('http://localhost:12345/select').success(function(data){
+				// console.log(data)
+				$scope.lists = data.lists;
+			})
+		}
+		$scope.select();
+		
+		// 点击submit按钮插入数据
+		$scope.submit = function(){
+			$http.get('http://localhost:12345/insert',{
+				params:{
+					name:$scope.name,
+					skill:$scope.skill
+				}
+			}).success(function(data){
+				$scope.name = '';
+				$scope.skill = '';
+				$scope.lists = data.lists;
+			})
+		}
+
+		// 点击delete按钮删除数据
+		$scope.delete = function(id){
+			$http.get('http://localhost:12345/delete',{
+				params:{
+					id:id
+				}
+			}).success(function(data){
+				console.log(data)
+				$scope.lists = data.lists;
+			})
+		}
+	}])
+	app.controller('editCtrl',['$scope','$http','$routeParams','$window',function($scope,$http,$routeParams,$window){
+		console.log($routeParams.id);
+		$scope.selectdetail = function(){
+			$http.get('http://localhost:12345/selectdetail',{
+				params:{
+					id:$routeParams.id
+				}
+			}).success(function(data){
+				console.log(data)
+				$scope.name = data.lists[0].name;
+				$scope.skill = data.lists[0].skill
+			})
+		}
+		$scope.selectdetail();
+		$scope.edit = function(){
+			$http.get('http://localhost:12345/edit',{
+				params:{
+					name:$scope.name,
+					skill:$scope.skill,
+					id:$routeParams.id
+				}
+			}).success(function(data){
+				$window.location.href = '#/index'
+			})
+		}
+	}])
+</script>
+</html>
