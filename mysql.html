@@ -73,6 +73,15 @@
 		}
 		$scope.selectdetail();
 		$scope.edit = function(){
+			$http.get('http://localhost:12345/selectdetail',{
+				params:{
+					id:$routeParams.id
+				}
+			}).success(function(data){
+				console.log(data)
+				$scope.name = data.lists[0].name;
+				$scope.skill = data.lists[0].skill
+			})
 			$http.get('http://localhost:12345/edit',{
 				params:{
 					name:$scope.name,
